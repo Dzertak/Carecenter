@@ -1,0 +1,44 @@
+unit UnitStart;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, jpeg, ExtCtrls;
+
+type
+  TFormStart = class(TForm)
+    img1: TImage;
+    tmr1: TTimer;
+    procedure tmr1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormStart: TFormStart;
+
+implementation
+
+uses UnitMain, UnitDataModule;
+
+{$R *.dfm}
+
+procedure TFormStart.tmr1Timer(Sender: TObject);
+begin
+with DataModule1.qry1 do
+begin
+  Active:=False;
+  SQL.Text:='Select COUNT(Код_студента) AS Students From Архив_студентов Where Трудоустроен=true';
+  Open;
+end;
+FormMain.lbl1.Font.Color:=RGB(250,189,61);
+FormMain.lbl1.Caption:='Трудоустроенных: '+DataModule1.qry1.FieldByName('Students').AsString;
+FormMain.show;
+tmr1.Enabled:=False;
+FormStart.Hide;
+end;
+
+end.

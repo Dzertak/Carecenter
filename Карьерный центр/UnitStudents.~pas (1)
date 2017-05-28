@@ -1,0 +1,59 @@
+unit UnitStudents;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, jpeg, ExtCtrls, DBGridEhGrouping, ToolCtrlsEh,
+  DBGridEhToolCtrls, GridsEh, DBGridEh, StdCtrls, DBCtrls;
+
+type
+  TFormStudents = class(TForm)
+    img1: TImage;
+    img2: TImage;
+    dbgrdh1: TDBGridEh;
+    edt1: TEdit;
+    dbnvgr1: TDBNavigator;
+    procedure edt1Change(Sender: TObject);
+    procedure edt1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormStudents: TFormStudents;
+
+implementation
+
+uses
+  UnitDataModule;
+
+{$R *.dfm}
+
+procedure TFormStudents.edt1Change(Sender: TObject);
+begin
+ with DataModule1.qryStudents do
+begin
+Active:=False;
+sql.Clear;
+SQL.Add('Select с.Код_студента, с.Код_специальности, с.ФИО, спец.Название As Специальность, с.Группа, с.Год_поступления, с.Год_выпуска, с.Примечание');
+SQL.Add(' From Студенты с, Специальности спец');
+SQL.Add(' Where с.Код_специальности=спец.Код_специальности');
+SQL.Add(' AND (с.ФИО LIKE ''%'+edt1.Text+'%'' OR спец.Название LIKE ''%'+edt1.Text+'%'' OR с.Группа LIKE ''%'+edt1.Text+'%''' );
+SQL.Add('OR с.Примечание LIKE ''%'+edt1.Text+'%'' OR с.Год_поступления LIKE ''%'+edt1.Text+'%'' OR с.Год_выпуска LIKE ''%'+edt1.Text+'%'')');
+Active:=True;
+ExecSQL;
+end;
+end;
+
+procedure TFormStudents.edt1MouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+begin
+if edt1.Text='search'  then
+edt1.Text:='';
+end;
+
+end.

@@ -1,0 +1,19 @@
+program Carecenter;
+
+uses
+  Forms,
+  UnitStart in 'UnitStart.pas' {FormStart},
+  UnitMain in 'UnitMain.pas' {FormMain},
+  UnitStudents in 'UnitStudents.pas' {FormStudents},
+  UnitDataModule in 'UnitDataModule.pas' {DataModule1: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TFormStart, FormStart);
+  Application.CreateForm(TFormMain, FormMain);
+  Application.CreateForm(TFormStudents, FormStudents);
+  Application.CreateForm(TDataModule1, DataModule1);
+  Application.Run;
+end.
